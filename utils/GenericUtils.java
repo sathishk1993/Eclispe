@@ -1,0 +1,122 @@
+package utils;
+
+import java.io.File;
+import java.io.IOException;
+import java.time.Duration;
+import java.util.Iterator;
+import java.util.Set;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class GenericUtils {
+	public  WebDriver driver;
+	public GenericUtils genericutils;
+
+	public GenericUtils(WebDriver driver) {
+		this.driver = driver;
+	}
+
+	public void switchTowindows() {
+
+		String parentwindow = driver.getWindowHandle();
+		Set<String> handles = driver.getWindowHandles();
+		Iterator<String> it = handles.iterator();
+		while (it.hasNext()) {
+			String childwindow = it.next();
+
+			if (!parentwindow.equalsIgnoreCase(childwindow)) {
+				driver.switchTo().window(childwindow);
+
+			}
+			
+		}
+		
+	}
+
+	public void hoverOverElement(WebElement ele) {
+        
+        Actions action= new Actions(driver);
+        action.moveToElement(ele).perform();
+	}
+
+	public void selection(WebElement ele, String name) {
+		Select select = new Select(ele);
+		select.selectByVisibleText(name);
+
+	}
+
+	public void alertMessageaccept() {
+
+		Alert alert = driver.switchTo().alert();
+		alert.accept();
+	}
+	public void alertMessageDismiss()
+	{
+		Alert alert = driver.switchTo().alert();
+		alert.dismiss();
+	}
+	
+	public void WebDriverwaitonelement(WebElement element) {
+	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+	    wait.until(ExpectedConditions.visibilityOf(element));
+	    wait.until(ExpectedConditions.elementToBeClickable(element)).click(); // Optional: click after wait
+	}
+
+	public void WebDriverwaitonlocator(By locator) {
+	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+	    wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+	    wait.until(ExpectedConditions.elementToBeClickable(locator)); // Optional: ensure it's clickable
+	}
+
+	public void waitForPageToLoad()
+	{
+	    new WebDriverWait(driver, Duration.ofSeconds(10)).until(
+	        webDriver -> ((JavascriptExecutor) webDriver)
+	            .executeScript("return document.readyState").equals("complete"));
+	   
+	}
+	
+	public void scrollToElement(By locator) {
+	    WebElement element = driver.findElement(locator);
+	    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", element);
+	}
+
+	
+	public void clickonelement(WebElement element)
+	{
+		JavascriptExecutor js = (JavascriptExecutor) driver;					// directly clicks
+		js.executeScript("arguments[0].click();", element);
+	}
+	
+	
+
+		
+	public byte[] takeScreenshotAsBytes(WebDriver driver) {
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+	}
+
+    public void saveScreenshotToFile(WebDriver driver, String fileName) {
+        File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        File dest = new File("screenshots/" + fileName + ".png");
+        try {
+            FileUtils.copyFile(src, dest);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+	
+	
+	
+
