@@ -3,8 +3,6 @@ package utils;
 import org.openqa.selenium.WebDriver;
 
 import pageObject.PageObjectManager;
-import pageObject.WebTableRegistrationPage;
-import stepDefinitions.Hooks;
 
 public class TestContext {
 
@@ -12,8 +10,6 @@ public class TestContext {
 	public PageObjectManager pageobjectmanager;
 	public GenericUtils genericutils;
 	private WebDriver driver;
-	
-
 
 	public TestContext() {
 
@@ -21,16 +17,11 @@ public class TestContext {
 		driver = testbase.WebDriverManager();
 		genericutils = new GenericUtils(driver);
 		pageobjectmanager = new PageObjectManager(driver, genericutils);
-		
-		
-		
 
 	}
-	
+
 	public WebDriver getDriver() {
-	    return driver;
+		return driver;
 	}
-
-
 
 }

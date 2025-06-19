@@ -16,22 +16,20 @@ public class Hooks {
 
 	public Hooks(TestContext testcontext) {
 		this.testcontext = testcontext;
-		this.driver=testcontext.getDriver();
-			
+		this.driver = testcontext.getDriver();
 
 	}
-	
 
 	@AfterStep
-	 public void tearDown(Scenario scenario) {
-        if (scenario.isFailed()) {
-            try {
-                byte[] screenshot = testcontext.genericutils.takeScreenshotAsBytes(driver);
-                scenario.attach(screenshot, "image/png", "Failure Screenshot");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+	public void tearDown(Scenario scenario) {
+		if (scenario.isFailed()) {
+			try {
+				byte[] screenshot = testcontext.genericutils.takeScreenshotAsBytes(driver);
+				scenario.attach(screenshot, "image/png", "Failure Screenshot");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 
 	}
 }

@@ -32,8 +32,7 @@ public class WebTableRegistrationPageDefinition {
 
 		Map<String, String> data = dataTable.asMap(String.class, String.class);
 		webtable.fillthewebtabledata(data.get("FirstName"), data.get("LastName"), data.get("Email"),
-				Integer.parseInt(data.get("Age")), Integer.parseInt(data.get("Salary")),
-				(data.get("Department")));
+				Integer.parseInt(data.get("Age")), Integer.parseInt(data.get("Salary")), (data.get("Department")));
 
 	}
 
@@ -41,7 +40,11 @@ public class WebTableRegistrationPageDefinition {
 	public void user_fills_the_form_and_submits() {
 
 		webtable.clickEditIfFirstNameExists("Spiderman");
-		webtable.editbutton();
+		webtable.brokenLinkTab();
+		webtable.clickBrokenImage();
+		webtable.verifythestatuscode();
+		webtable.clickhere();
+
 	}
 
 }
